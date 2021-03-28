@@ -1,0 +1,12 @@
+steps
+1. create db
+2. create connection from index.php to db
+3. create form to register.php to register user
+   - capture the register form input values
+   - sanitize accordingly
+   - validate accordingly
+4. create users table
+5. check if email already in use
+6. validate the remaining values
+7. store the form input values into session, so the values persist during form error
+8. store the error messages into an array, and display if got error in the register form
