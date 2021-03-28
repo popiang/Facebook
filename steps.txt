@@ -1,4 +1,5 @@
 steps
+SECTION 1
 1. create db
 2. create connection from index.php to db
 3. create form to register.php to register user
@@ -10,3 +11,20 @@ steps
 6. validate the remaining values
 7. store the form input values into session, so the values persist during form error
 8. store the error messages into an array, and display if got error in the register form
+9. auto create username, append incremented number if username already exist
+10. assign default profile picture, random between 2 default pics
+11. insert all the finalized values into users table
+12. set successfull insert message into error array and then display it after inserting
+13. reset form input sessions values
+
+SECTION 2
+1. create config.php, put db connection code in there and include it in the register.php
+2. move all other php code in register.php to register_handler.php page and include it in the register.php
+3. create login form, above registration form, inside register.php page
+4. handle login in login_handler.php
+   - capture input, check with db, and if yes store in session
+   - then redirect to index.php
+   - don't forget to include the login handler in the register.php
+5. set login error into error_array and display in login form during login error
+6. set login email to session to persist the value during login error
+7. reopen closed account during login if the account is closed
