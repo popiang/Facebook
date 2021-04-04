@@ -42,3 +42,14 @@ SECTION 3
 8. create wrapper for each login & registration form, then and jquery cdn, then create js file for registration page
 9. add jquery code to toggle login and registration form
 10. fix bug when click register button with error, register form is hidden
+
+SECTION 4
+1. create header page in includes, put the upper body of html in the page and include header in index page
+2. in header get logged in user from session, but if none, redirect to register page
+3. add bootstrap into the header page
+4. create the top navbar and style it
+5. style the top navbar logo
+6. add fontawesome into the header page
+7. set the icons on the topbar nav
+8. add logged in username name in the topbar nav
+

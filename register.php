@@ -18,16 +18,16 @@ require "includes/form_handlers/login_handler.php";
 
 		<?php 
 
-		// if (isset($_POST['register_button'])){
-		// 	echo '
-		// 	<script>
-		// 		$(document).ready(function(){
-		// 			$("#first").hide();
-		// 			$("#second").show();
-		// 		});
-		// 	</script>
-		// 	';
-		// }
+		if (isset($_POST['register_button'])){
+			echo '
+			<script>
+				$(document).ready(function(){
+					$("#first").hide();
+					$("#second").show();
+				});
+			</script>
+			';
+		}
 
 		?>
 
@@ -105,7 +105,7 @@ require "includes/form_handlers/login_handler.php";
 						<br>
 
 						<?php if(in_array("<span style='color:#14C800'>You're all set! Go ahead and login!</span>", $error_array)) 
-							echo "<span style='color:#14C800'>You're all set! Go ahead and login!</span>"; ?>
+							echo "<span style='color:#14C800'>You're all set! Go ahead and login!</span><br>"; ?>
 
 						<a href="#" id="signin" class="signin">Already have an account? Sign in here!</a>	
 
