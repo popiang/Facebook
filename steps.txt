@@ -1,4 +1,5 @@
-steps
+Steps
+
 SECTION 1
 1. create db
 2. create connection from index.php to db
@@ -28,3 +29,16 @@ SECTION 2
 5. set login error into error_array and display in login form during login error
 6. set login email to session to persist the value during login error
 7. reopen closed account during login if the account is closed
+
+SECTION 3
+1. create register_style.css, and link it in register.php head
+2. add background picture to register.php
+   - style it to cover the whole page
+3. add div around forms in register.php and style it
+4. create login_header div for the header and style it
+5. download bellota font, save in font folder, create font-face in css and then use it in login, login header and login header h1
+6. add text shadow to login header h1
+7. style the login/register form
+8. create wrapper for each login & registration form, then and jquery cdn, then create js file for registration page
+9. add jquery code to toggle login and registration form
+10. fix bug when click register button with error, register form is hidden
