@@ -38,13 +38,15 @@ if (isset($_SESSION['username'])) {
 		</div>
 		
 		<nav>
-			<a href=""><?php echo $user['first_name']; ?></a>
+			<a href="<?php echo $userLoggedIn; ?>"><?php echo $user['first_name']; ?></a>
 			<a href="#" class="ml-3"><li class="fas fa-home fa-lg"></li></a>
 			<a href="#" class="ml-3"><li class="fas fa-envelope fa-lg"></li></a>
 			<a href="#" class="ml-3"><li class="fas fa-bell fa-lg"></li></a>
 			<a href="#" class="ml-3"><li class="fas fa-users fa-lg"></li></a>
-			<a href="#" class="ml-3 mr-2"><li class="fas fa-cog fa-lg"></li></a>
+			<a href="#" class="ml-3"><li class="fas fa-cog fa-lg"></li></a>
+			<a href="includes/handlers/logout.php" class="ml-3 mr-2"><li class="fas fa-sign-out-alt fa-lg"></li></a>
 		</nav>
 
 	</div>
 
+	<div class="wrapper">

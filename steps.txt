@@ -1,6 +1,6 @@
 Steps
 
-SECTION 1
+SECTION 2
 1. create db
 2. create connection from index.php to db
 3. create form to register.php to register user
@@ -18,7 +18,7 @@ SECTION 1
 12. set successfull insert message into error array and then display it after inserting
 13. reset form input sessions values
 
-SECTION 2
+SECTION 3
 1. create config.php, put db connection code in there and include it in the register.php
 2. move all other php code in register.php to register_handler.php page and include it in the register.php
 3. create login form, above registration form, inside register.php page
@@ -30,7 +30,7 @@ SECTION 2
 6. set login email to session to persist the value during login error
 7. reopen closed account during login if the account is closed
 
-SECTION 3
+SECTION 4
 1. create register_style.css, and link it in register.php head
 2. add background picture to register.php
    - style it to cover the whole page
@@ -43,7 +43,7 @@ SECTION 3
 9. add jquery code to toggle login and registration form
 10. fix bug when click register button with error, register form is hidden
 
-SECTION 4
+SECTION 5
 1. create header page in includes, put the upper body of html in the page and include header in index page
 2. in header get logged in user from session, but if none, redirect to register page
 3. add bootstrap into the header page
@@ -52,4 +52,19 @@ SECTION 4
 6. add fontawesome into the header page
 7. set the icons on the topbar nav
 8. add logged in username name in the topbar nav
+
+SECTION 6
+1. create div to display profile image
+2. style the above 
+3. add user details to above panel and style it
+4. create the main column and add form for comment and then style it
+5. style the add comment button
+6. setup htaccess page, then setup profile page, then link name, profile page and topbar user name to profile page
+7. setup posts, post_comments and likes tables in db
+8. create User.php class in class folder in includes folder
+9. create Post.php class in class folder in includes folder
+   - create function to submit post
+10. fix line break issue in the textarea
+11. fix date insert issue when refresh page
+12. create logout menu and logout page
 
