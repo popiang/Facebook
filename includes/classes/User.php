@@ -22,6 +22,14 @@ class User {
 	public function getFirstAndLastName() {
 		return $this->user['first_name'] . " " . $this->user['last_name'];
 	}
+
+	public function isClosed() {
+		if ($this->user['user_closed'] == 'yes') {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 ?>

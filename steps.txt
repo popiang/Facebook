@@ -68,3 +68,9 @@ SECTION 6
 11. fix date insert issue when refresh page
 12. create logout menu and logout page
 
+SECTION 7
+1. create load post friends function in Post.php
+   - get post data
+   - create time interval message
+2. create ajax_load_posts.php
+3. add ajax call in index.php
