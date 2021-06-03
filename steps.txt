@@ -74,3 +74,19 @@ SECTION 7
    - create time interval message
 2. create ajax_load_posts.php
 3. add ajax call in index.php
+
+SECTION 8
+1. create isFriend function in User.php
+2. use the function in Post.php to display only friends posts
+3. create comment_frame.php file in the root folder
+4. put comment form in the file and insert into table properly
+5. use iframe in Post.php to call comment_frame.php
+6. load all the comments for the post in the comment_frame.php
+7. stylethe iframe
+8. add newsfeedPostOption to display the number of comments for each post, and then style it
+9. add javascript in post.php to not display the comment_frame when click on link
+10. create like.php
+    - create like or dislike button
+	- handle the button click to update total likes for the post and for the post owner and then insert likes data into likes table
+	- insert like.php in iframe in Post.php below newsfeedPostOption
+11. style the like unlike button

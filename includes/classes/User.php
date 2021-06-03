@@ -23,8 +23,23 @@ class User {
 		return $this->user['first_name'] . " " . $this->user['last_name'];
 	}
 
+	public function getProfilePic() {
+		return $this->user['profile_pic'];
+	}
+
 	public function isClosed() {
 		if ($this->user['user_closed'] == 'yes') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function isFriend($usernameToCheck) {
+
+		$usernameComma = "," . $usernameToCheck . ",";
+
+		if (strstr($this->user['friend_array'], $usernameComma) || $usernameToCheck == $this->user['username']) {
 			return true;
 		} else {
 			return false;
