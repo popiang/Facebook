@@ -90,3 +90,25 @@ SECTION 8
 	- handle the button click to update total likes for the post and for the post owner and then insert likes data into likes table
 	- insert like.php in iframe in Post.php below newsfeedPostOption
 11. style the like unlike button
+
+SECTION 9
+1. add left column section in profile page to display user image, likes, posts and friends count and then style it
+2. then add button below it based on the relationship status between current user with the profile page owner
+3. check if account closed -> divert to user_closed.php page
+4. if user view his/her own profile page, no button will be displayed
+5. style the button
+6. create removeFriend function in User.php
+7. create sendRequest function in User.php
+8. set up the button handlers using functions from User.php
+9. create requests.php page to handler friend requests
+   - add or ignore friend request, and update table accordingly
+10. style requests.php page
+11. create delete post button for every post that doesn't belong to logged in user
+12. place the delete post button after time message
+13. add javascript code to handle the delete button click
+    - use bootbox.js
+	- send the action to delete_post.php
+14. create delete_post.php page to handle post deletion
+15. style the delete button
+16. create upload.php page, copy paste code provided by reece, update the code accordingly
+

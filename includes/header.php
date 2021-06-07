@@ -20,12 +20,17 @@ if (isset($_SESSION['username'])) {
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/jquery.Jcrop.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/c814600906.js" crossorigin="anonymous"></script>
+	<script src="assets/js/bootbox.all.min.js"></script>
+	<script src="assets/js/jcrop_bits.js"></script>
+	<script src="assets/js/jquery.Jcrop.js"></script>
+	<script src="assets/js/facebook.js"></script>
 
 </head>
 
@@ -42,7 +47,7 @@ if (isset($_SESSION['username'])) {
 			<a href="#" class="ml-3"><li class="fas fa-home fa-lg"></li></a>
 			<a href="#" class="ml-3"><li class="fas fa-envelope fa-lg"></li></a>
 			<a href="#" class="ml-3"><li class="fas fa-bell fa-lg"></li></a>
-			<a href="#" class="ml-3"><li class="fas fa-users fa-lg"></li></a>
+			<a href="requests.php" class="ml-3"><li class="fas fa-users fa-lg"></li></a>
 			<a href="#" class="ml-3"><li class="fas fa-cog fa-lg"></li></a>
 			<a href="includes/handlers/logout.php" class="ml-3 mr-2"><li class="fas fa-sign-out-alt fa-lg"></li></a>
 		</nav>

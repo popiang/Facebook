@@ -28,7 +28,7 @@ if (isset($_SESSION['username'])) {
 </head>
 <body>
 
-	<script>
+	<!-- <script>
 		
 	function toggle() {
 		var element = document.getElementById('comment_section');
@@ -40,7 +40,7 @@ if (isset($_SESSION['username'])) {
 		}
 	}
 
-	</script>
+	</script> -->
 
 	<?php  
 
@@ -75,6 +75,7 @@ if (isset($_SESSION['username'])) {
 	<!-- load comments -->
 	<?php  
 
+	// get all the comments for the post
 	$getComments = mysqli_query($conn, "SELECT * FROM comments WHERE post_id = '$postId' ORDER BY id ASC");
 	$count = mysqli_num_rows($getComments);
 
@@ -88,7 +89,7 @@ if (isset($_SESSION['username'])) {
 			$dateAdded = $comment['date_added'];
 			$removed = $comment['removed'];
 
-			// timeframe
+			// timeframe message
 			$date_time_now = date("Y-m-d H:i:s");
 			$start_date = new DateTime($dateAdded);		// time of post
 			$end_date = new DateTime($date_time_now);	// current time
@@ -155,6 +156,7 @@ if (isset($_SESSION['username'])) {
 
 			?>
 
+			<!-- display the comment -->
 			<div class="comment_section">
 				<a href="<?php echo $postedBy;?>" target="_parent"><img src="<?php echo $userObj->getProfilePic(); ?>" title="<?php echo $postedBy; ?>" style="float:left;" height="30"></a>
 				<a href="<?php echo $postedBy;?>" target="_parent"><b> <?php echo $userObj->getFirstAndLastName(); ?> </b></a>

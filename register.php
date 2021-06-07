@@ -1,9 +1,7 @@
 <?php  
-
 require "config/config.php";
 require "includes/form_handlers/register_handler.php";
 require "includes/form_handlers/login_handler.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +15,6 @@ require "includes/form_handlers/login_handler.php";
 	<body>
 
 		<?php 
-
 		if (isset($_POST['register_button'])){
 			echo '
 			<script>
@@ -28,7 +25,6 @@ require "includes/form_handlers/login_handler.php";
 			</script>
 			';
 		}
-
 		?>
 
 		<div class="wrapper">

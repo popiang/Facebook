@@ -4,6 +4,7 @@ require 'config/config.php';
 include("includes/classes/User.php");
 include("includes/classes/Post.php");
 
+// check for logged in user
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
 	$user_details_query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$userLoggedIn'");
@@ -83,11 +84,12 @@ if (isset($_GET['post_id'])) {
 
 
 
-	// check fro previous likes
+	// check if logged in user already liked the post
 	$checkQuery = mysqli_query($conn, "SELECT * FROM likes WHERE username = '$userLoggedIn' AND post_id = '$postId'");
 	$numRows = mysqli_num_rows($checkQuery);
 
 	if ($numRows > 0) {
+		// already liked, so display unlike button
 		echo '<form action="like.php?post_id=' . $postId . '" method="POST" class="like_unlike_button">
 				<input type="submit" class="comment_like" name="unlike_button" value="Unlike" >
 				<div class="like_value">
@@ -95,6 +97,7 @@ if (isset($_GET['post_id'])) {
 				</div>
 			  </form>';
 	} else {
+		// haven't liked yet, so display like button
 		echo '<form action="like.php?post_id=' . $postId . '" method="POST" class="like_unlike_button">
 				<input type="submit" class="comment_like" name="like_button" value="Like" >
 				<div class="like_value">
@@ -105,9 +108,6 @@ if (isset($_GET['post_id'])) {
 
 
 	?>
-
-
-
 
 </body>
 </html>

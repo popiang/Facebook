@@ -1,12 +1,213 @@
 <?php 
-include("includes/header.php"); 
+include "includes/header.php"; 
+include "includes/classes/User.php";
+include "includes/classes/Post.php";
+
+if (isset($_GET['profile_username'])) {
+	$username = $_GET['profile_username'];
+	$userDetailsQuery = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
+	$userArray = mysqli_fetch_array($userDetailsQuery);
+	$numFriends = substr_count($userArray['friend_array'], ",") - 1;
+}
+
+if (isset($_POST['remove_friend'])) {
+	$user = new User($conn, $userLoggedIn);
+	$user->removeFriend($username);
+}
+
+if (isset($_POST['add_friend'])) {
+	$user = new User($conn, $userLoggedIn);
+	$user->sendRequest($username);
+}
+
+if (isset($_POST['respond_request'])) {
+	header("Location: requests.php");
+}
+
 ?>
 
-	<div class="main_column column">
+	<style type="text/css">
+		.wrapper {
+			margin-left: 0;
+			padding-left: 0;
+		}
+	</style>
 
-		This is a profile page
+	<div class="profile_left">
+
+		<!-- display profile picture -->
+		<img src="<?php echo $userArray['profile_pic']; ?>">
+
+		<!-- display basic info -->
+		<div class="profile_info">
+			<p><?php echo "Posts: " . $userArray['num_posts'];?></p>
+			<p><?php echo "Likes: " . $userArray['num_likes']; ?></p> 
+			<p><?php echo "Friends: " . $numFriends; ?></p> 
+		</div>
+
+		<!-- display button based on the relationship status between current user with the profile page user -->
+		<form action="<?php echo $username; ?>" method="POST">
+
+			<?php  
+			$profileUserObj = new User($conn, $username);
+
+			// check if the account of the user of the profile page is already closed -> directed to user_closed.php page
+			if ($profileUserObj->isClosed()) {
+				header("Location: user_closed.php");
+			}
+
+			$loggedInUserObj = new User($conn, $userLoggedIn);
+
+			// check if the profile doesn't belong to the user opening the page
+			// if it is, then no button will be displayed
+			if ($userLoggedIn != $username) {
+
+				// current viewing user is already friend with the profile page user -> display remove friend button
+				if ($loggedInUserObj->isFriend($username)) {
+					echo '<input type="submit" name="remove_friend" class="danger" value="Remove Friend"><br>';
+
+				// current viewing user have received friend request from the profile page user -> display response to request button
+				} else if ($loggedInUserObj->didReceiveRequest($username)) {
+					echo '<input type="submit" name="respond_request" class="warning" value="Response to Request"><br>';
+
+				// current viewing user have sent friend request to the profile page user -> display message request sent					
+				} else if ($loggedInUserObj->didSendRequest($username)) {
+					echo '<input type="submit" name="" class="default" value="Request Sent"><br>';
+				
+				// current viewing user is not friend and haven't sent of recieve friend request -> display add friend request button
+				} else {
+					echo '<input type="submit" name="add_friend" class="success" value="Add Friend"><br>';
+				}
+			}
+
+			?>
+
+		</form>
+
+		<!-- button to display the modal to submit post -->
+		<input type="submit" class="deep_blue" data-toggle="modal" data-target="#post_form" value="Post Something">
+
+		<?php  
+		// display the number of mutual friends
+		if ($userLoggedIn != $username) {
+			echo "<div class='profile_info_bottom' >";
+			echo $loggedInUserObj->getMutualFriends($username) . " Mutual Friends";
+			echo "</div>";
+		}
+		?>
+
+	</div>
+
+	<div class="profile_main_column column">
+
+		<!-- this div will contain all the posts -->
+		<div class="post_area"></div>
+		<img id="loading" src="assets/images/icons/loading.gif">
 		
 	</div>
+
+
+	<!-- Modal to submit post -->
+	<div class="modal fade" id="post_form" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="postModalLabel">Post something!</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<a href="">This will appear on the user's profile page and also their newsfeed for your friends to see!</a>
+
+					<form action="" class="profile_post" method="POST">
+						<div class="form-group">
+							<textarea name="post_body" id="" cols="30" rows="" class="form-control"></textarea>
+							<input type="hidden" name="user_from" value="<?php echo $userLoggedIn; ?>">
+							<input type="hidden" name="user_to" value="<?php echo $username; ?>">
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" name="post_button" id="submit_profile_post">Post</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<script>
+		
+		// handling infinite scrolling	
+		$(function(){
+
+			var userLoggedIn = '<?php echo $userLoggedIn; ?>';
+			var profileUsername = '<?php echo $username; ?>';
+			var inProgress = false;
+
+			//Load first posts
+			loadPosts(); 
+
+			$(window).scroll(function() {
+				var bottomElement = $(".status_post").last();
+				var noMorePosts = $('.post_area').find('.noMorePosts').val();
+				if (isElementInView(bottomElement[0]) && noMorePosts === 'false') {
+					loadPosts();
+				}
+			});
+				
+			function loadPosts() {
+
+				// if it is already in the process of loading some posts, just return
+				if(inProgress) { 
+					return;
+				}
+			
+				inProgress = true;
+				$('#loading').show();
+
+				// if nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
+				var page = $('.post_area').find('.nextPage').val() || 1; 
+				
+				$.ajax({
+
+					url: "includes/handlers/ajax_load_profile_posts.php",
+					type: "POST",
+					data: "page=" + page + "&userLoggedIn=" + userLoggedIn + '&profileUsername=' + profileUsername,
+					cache:false,
+					success: function(response) {
+						$('.post_area').find('.nextPage').remove(); //Removes current .nextpage
+						$('.post_area').find('.noMorePosts').remove(); 
+						$('.post_area').find('.noMorePostsText').remove();
+						$('#loading').hide();
+						$(".post_area").append(response);                                     
+						inProgress = false;
+					}
+				});
+			}
+				
+			// check if the element is in view
+			function isElementInView (el) {
+
+				if(el == null) {
+					return;
+				}
+
+				var rect = el.getBoundingClientRect();
+
+				return (
+					rect.top >= 0 &&
+					rect.left >= 0 &&
+					rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
+					rect.right <= (window.innerWidth || document.documentElement.clientWidth) 
+				);
+			}
+		});		
+
+	</script>
 
 </div>
 
