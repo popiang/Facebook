@@ -112,3 +112,24 @@ SECTION 9
 15. style the delete button
 16. create upload.php page, copy paste code provided by reece, update the code accordingly
 
+SECTION 10
+1. create Message.php class and messages.php page
+2. create getMostRecentUser in Message.php
+3. create message table in db
+4. create user details column to display some info of the profile user
+5. create sendMessage function in Message.php
+6. create getLatestMessage function in Message.php
+7. create getConversations function in Message.php
+8. create the main column section in messages.php
+   - create the top part to display all the messages in a conversation
+   - create message_post div
+     - top part is the user search form to search user to start a conversation
+	 - create a getUser function in facebook.js to handle the user search through ajax call
+	 - create ajax_friend_search.php file to handle the user search from the javascript ajax call
+     - at the bottom is the message form to submit new message
+9. create another user details column to display the list of all the conversation the logged in user has
+10. in profile.php page, in the main column, use bootstrap nav tab component to create tab for newsfeed, about and messages
+11. in tab_content div below it, place all 3 component content and link it to above nav tab
+12. style everything
+
+
