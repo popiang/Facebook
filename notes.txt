@@ -1,4 +1,13 @@
-Steps
+Parts to review after finish the course:
+
+1. infinite scrolling
+2. ajax
+3. $.post() javascript function
+4. upload profile image
+5. time message
+
+
+Steps:
 
 SECTION 2
 1. create db
@@ -132,4 +141,18 @@ SECTION 10
 11. in tab_content div below it, place all 3 component content and link it to above nav tab
 12. style everything
 
+SECTION 11
+1. setup up the header.php file for the dropdown menu
+2. create the javascript function getDropdownData
+3. create ajax_load_messages.php file
+4. create getConvosDropdown function Message.php, copy from getConversations function and modify it
+5. complete the return string of the above function
+6. style the dropdown
+7. infinite scrolling
+   - copy infinite scrolling script from index.php and paste in header.php 
+   - modify the script to suit the dropdown menu
+8. create getUnreadNumber function in Message.php to get the number of unread messages
+9. get the unread messages number and display it in header file in the message menu
+10. style the above notification badge
+   
 

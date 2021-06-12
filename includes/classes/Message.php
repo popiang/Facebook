@@ -5,6 +5,7 @@ class Message {
     private $user_obj;
     private $con;
 
+	// good old constructor
     public function __construct($con, $user) {
         $this->con = $con;
         $this->user_obj = new User($this->con, $user);
@@ -35,7 +36,6 @@ class Message {
 			return $userFrom;
 		}
 	}
-
 
 	// simply insert the message of logged in user to userTo into table
 	public function sendMessage($userTo, $body, $date) {
@@ -81,7 +81,7 @@ class Message {
 		$row = mysqli_fetch_array($query);
 
 		// to choose the opening words based on who sent the message
-		$sentBy = $row['user_to'] == $userLoggedIn ? "Then said: " : "You said: ";
+		$sentBy = $row['user_to'] == $userLoggedIn ? "They said: " : "You said: ";
 
 		// timeframe message
 		$date_time_now = date("Y-m-d H:i:s");
@@ -191,16 +191,125 @@ class Message {
 			$split = $split[0] . $dots;
 
 			// structure to display the conversation of the logged in user
-			$returnString .= "<a href='messages.php?u=$username'> <div class='user_found_messages'>
-								  <img src='" . $userFoundObj->getProfilePic() . "' style='border-radius:5px; margin-right:5px;' >
-								  " . $userFoundObj->getFirstAndLastName() . "
-								  <span class='timestamp_smaller' id='grey'>" . $latestMessageDetails[2] . "</span>
-								  <p id='grey' style='margin:0;'>" . $latestMessageDetails[0]. $split  . "</p>
+			$returnString .= "<a href='messages.php?u=$username'> 
+								  <div class='user_found_messages'>
+								  	<img src='" . $userFoundObj->getProfilePic() . "' style='border-radius:5px; margin-right:5px;' >
+								  	" . $userFoundObj->getFirstAndLastName() . "
+								  	<span class='timestamp_smaller' id='grey'>" . $latestMessageDetails[2] . "</span>
+								  	<p id='grey' style='margin:0;'>" . $latestMessageDetails[0]. $split  . "</p>
 								  </div>
 							  </a>";
 		}
 
 		return $returnString;
+	}
+
+	// get all the latest conversation of the logged in user to be displayed in dropdown
+	public function getConvosDropdown($data, $limit) {
+
+		// initialize variables
+		$page = $data['page'];
+		$userLoggedIn = $this->user_obj->getUsername();
+		$returnString = "";
+		$otherUsers = array();
+
+		if ($page == 1) {
+			$start = 0;
+		} else {
+			$start = ($page - 1) * $limit;
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// when the logged in user opens the dropdown menu for messages, technically it means all the //
+		// messages/conversation of the logged in user in the dropdown menu are considered viewed     //
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		$setViewedQuery = mysqli_query($this->con, "UPDATE messages SET viewed = 'yes' WHERE user_to = '$userLoggedIn'");
+
+		// get all the user_to & user_from from all the messages of the logged in user
+		$query = mysqli_query($this->con, "SELECT user_to, user_from FROM messages WHERE user_to = '$userLoggedIn' OR user_from = '$userLoggedIn' ORDER BY id DESC");
+
+		// this loop is to get all the other users in all of the above messages and push it into an array
+		while ($row = mysqli_fetch_array($query)) {
+
+			// get the other user
+			$userToPush = $row['user_to'] != $userLoggedIn ? $row['user_to'] : $row['user_from'];
+
+			// push into array if the other users are not already in
+			if (!in_array($userToPush, $otherUsers)) {
+				array_push($otherUsers, $userToPush);
+			}
+		}
+
+		// number of messages checked
+		$numIterations = 0;
+
+		// number of messages posted
+		$count = 1;
+
+		// looping through all the other users and get the latest message and then construct the structure to display
+		foreach ($otherUsers as $username) {
+  
+  			// skip all the messages from the first/previous pages which are already displayed
+			if ($numIterations++ < $start) {
+				continue;
+			}
+
+			//////////////////////////////////////////////////////////////////////////////
+			// 2 ways to exit the foreach looping										//
+			//   1. the number of messages appended to variable returnString == limit 	//
+			//   2. no more messages data to be appended								//
+			//////////////////////////////////////////////////////////////////////////////
+			if ($count++ > $limit) {
+				break;
+			}
+
+			// these 3 lines are to set the color of the unopened messages in the dropdown
+			$isUnreadQuery = mysqli_query($this->con, "SELECT opened FROM messages WHERE user_to = '$userLoggedIn' AND user_from = '$username' ORDER BY id DESC");
+			$row = mysqli_fetch_array($isUnreadQuery);
+			$style = (isset($row['opened']) && $row['opened'] == 'no') ? "background-color: #DDEDFF" : "";
+
+			$userFoundObj = new User($this->con, $username);
+
+			// get the latest message
+			$latestMessageDetails = $this->getLatestMessage($userLoggedIn, $username);
+
+			// display only the first 12 characters of the message and then appended with '...'
+			$dots = strlen($latestMessageDetails[1]) >= 12 ? "..." : "";
+			$split = str_split($latestMessageDetails[1], 12);
+			$split = $split[0] . $dots;
+
+			// structure to display the conversation of the logged in user
+			$returnString .= "<a href='messages.php?u=$username'> 
+								<div class='user_found_messages'  style='" . $style . "'>
+									<img src='" . $userFoundObj->getProfilePic() . "' style='border-radius:5px; margin-right:5px;' >
+									" . $userFoundObj->getFirstAndLastName() . "
+									<span class='timestamp_smaller' id='grey'>" . $latestMessageDetails[2] . "</span>
+									<p id='grey' style='margin:0;'>" . $latestMessageDetails[0] . $split . "</p>
+								</div>
+							  </a>";
+		}
+
+		// return additional info to the calling page
+		if ($count > $limit) {
+			// data returned indicates there's more data to be displayed
+			$returnString .= "<input type='hidden' class='nextPageDropDownData' value='" . ($page + 1) . "'>
+			                  <input type='hidden' class='noMoreDropdownData' value='false'>";
+		} else {
+			// data returned indicates there's no more data to be displayed
+			$returnString .= "<input type='hidden' class='noMoreDropdownData' value='true'>
+							  <p style='text-aling:center;'>No more messages to load</p>";
+		}
+
+		return $returnString;		
+	}
+
+	public function getUnreadNumber() {
+
+		$userLoggedIn = $this->user_obj->getUsername();
+
+		$query = mysqli_query($this->con, "SELECT * FROM messages WHERE viewed='no' AND user_to='$userLoggedIn'");
+
+		return mysqli_num_rows($query);
 	}
 }
 

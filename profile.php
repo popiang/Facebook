@@ -1,8 +1,5 @@
 <?php 
 include "includes/header.php"; 
-include "includes/classes/User.php";
-include "includes/classes/Post.php";
-include "includes/classes/Message.php";
 
 $messageObj = new Message($conn, $userLoggedIn);
 
@@ -144,8 +141,6 @@ if (isset($_POST['post_message'])) {
 			<div role="tabpanel" class="tab-pane fade" id="messages_div">
 
 				<?php
-					
-
 					echo "<h4>You and <a href='" . $username . "'>" . $profileUserObj->getFirstAndLastName() . "</a></h4><hr><br>";
 					echo "<div class='loaded_messages' id='scroll_messages'>";
 					echo $messageObj->getMessages($username);
@@ -153,6 +148,7 @@ if (isset($_POST['post_message'])) {
 				?>
 
 				<div class="message_post">
+					<!-- form to submit new message -->
 					<form action="" method="POST">
 						<textarea name='message_body' id='message_textarea' placeholder='Write your message...'></textarea>
 						<input type='submit' name='post_message' class='info' id='message_submit' value='Send' >

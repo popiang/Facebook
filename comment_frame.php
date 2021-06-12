@@ -1,5 +1,4 @@
 <?php  
-
 require 'config/config.php';
 include("includes/classes/User.php");
 include("includes/classes/Post.php");
@@ -27,20 +26,6 @@ if (isset($_SESSION['username'])) {
 	</style>
 </head>
 <body>
-
-	<!-- <script>
-		
-	function toggle() {
-		var element = document.getElementById('comment_section');
-
-		if (element.style.display == 'block') {
-			element.style.display = 'none';
-		} else {
-			element.style.display = 'block';
-		}
-	}
-
-	</script> -->
 
 	<?php  
 
