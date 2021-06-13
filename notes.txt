@@ -8,7 +8,7 @@ Parts to review after finish the course:
 
 Bugs:
 1. notification doesn't set to opened for certain notifications
-
+2. newsfeed only display after going to other tab first
 
 Steps:
 
@@ -177,3 +177,13 @@ SECTION 12
 13. create function to get the number of friend request in User.php
 14. use the above functioon to add friend request notification badge in the header page
 
+SECTION 13
+1. create a form for the search field in the header
+2. style the form
+3. create javascript function to animate the search field when receive focus and submit the form when click on the magnifying glass image
+4. create getLiveSearchUsers function in function.js
+5. create ajax_search.php file
+6. create the userReturnedQuery based on the search input sent to the ajax file
+7. loop the result of the above query to create the structure of the search result
+8. style the above dropdown results
+9. add javascript function to close dropdown for search bar, notifications and messages when user clicks away
