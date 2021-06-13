@@ -303,6 +303,7 @@ class Message {
 		return $returnString;		
 	}
 
+	// get the number of unread messages of the logged in user
 	public function getUnreadNumber() {
 
 		$userLoggedIn = $this->user_obj->getUsername();

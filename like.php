@@ -1,7 +1,8 @@
 <?php  
 require 'config/config.php';
-include("includes/classes/User.php");
-include("includes/classes/Post.php");
+include "includes/classes/User.php";
+include "includes/classes/Post.php";
+include "includes/classes/Notification.php";
 
 // check for logged in user
 if (isset($_SESSION['username'])) {
@@ -64,6 +65,11 @@ if (isset($_GET['post_id'])) {
 		$insertLikes = mysqli_query($conn, "INSERT INTO likes VALUES('', '$userLoggedIn', '$postId')");
 
 		// insert notification
+		// only send notification when liking other user's post
+		if ($userLiked != $userLoggedIn) {
+			$notification = new Notification($conn, $userLoggedIn);
+			$notification->insertNotification($postId, $userLiked, 'like');
+		}
 	}
 
 	// unlike button

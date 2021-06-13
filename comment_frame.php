@@ -1,7 +1,8 @@
 <?php  
 require 'config/config.php';
-include("includes/classes/User.php");
-include("includes/classes/Post.php");
+include "includes/classes/User.php";
+include "includes/classes/Post.php";
+include "includes/classes/Notification.php";
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
@@ -39,6 +40,7 @@ if (isset($_SESSION['username'])) {
 	$userQuery = mysqli_query($conn, "SELECT added_by, user_to FROM posts WHERE id='$postId'");
 	$row = mysqli_fetch_array($userQuery);
 	$postedTo = $row['added_by'];
+	$userTo = $row['user_to'];
 
 	// insert the comment into table
 	if (isset($_POST['postComment' . $postId])) {
@@ -46,6 +48,41 @@ if (isset($_SESSION['username'])) {
 		$postBody = mysqli_escape_string($conn, $postBody);
 		$dateTimeNow = date('Y-m-d H:i:s');
 		$insertPost = mysqli_query($conn, "INSERT INTO comments VALUES ('', '$postBody', '$userLoggedIn', '$postedTo', '$dateTimeNow', 'no', '$postId')");
+
+		// insert notification
+		// send notification when submitting comment to other user's post
+		if ($postedTo != $userLoggedIn) {
+			$notification = new Notification($conn, $userLoggedIn);
+			$notification->insertNotification($postId, $postedTo, 'comment');
+		}
+		
+		// send notification when submitting comment to other user's profile post
+		if ($userTo != 'none' && $userTo != $userLoggedIn) {
+			$notification = new Notification($conn, $userLoggedIn);
+			$notification->insertNotification($postId, $userTo, 'profile_comment');
+		}
+
+		$getCommenters = mysqli_query($conn, "SELECT * FROM comments WHERE post_id = '$postId'");
+
+		// to keep track of users who have been notified
+		$notifiedUsers = array();
+
+		// send notification to all commenters in a post except for the logged in user, 
+		// profile owner and owner of the post
+		while($row = mysqli_fetch_array($getCommenters)) {
+
+			if ($row['posted_by'] != $postedTo &&				// not posted by the owner of the post
+				$row['posted_by'] != $userTo &&					// not posted by the profile owner
+				$row['posted_by'] != $userLoggedIn && 			// not posted by the logged in user
+				!in_array($row['posted_by'], $notifiedUsers)) {	// user not notified yet
+
+				$notification = new Notification($conn, $userLoggedIn);
+				$notification->insertNotification($postId, $row['posted_by'], 'comment_non_owner');
+
+				array_push($notifiedUsers, $row['posted_by']);
+			}
+		}
+
 		echo "<p>Comment Posted!</p>";
 	}
 

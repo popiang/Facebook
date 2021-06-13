@@ -6,6 +6,9 @@ Parts to review after finish the course:
 4. upload profile image
 5. time message
 
+Bugs:
+1. notification doesn't set to opened for certain notifications
+
 
 Steps:
 
@@ -154,5 +157,23 @@ SECTION 11
 8. create getUnreadNumber function in Message.php to get the number of unread messages
 9. get the unread messages number and display it in header file in the message menu
 10. style the above notification badge
-   
+
+SECTION 12
+1. create notifications table
+2. add notification badge to the navigation bar
+3. complete the notification part in getDropdownData function in facebook.js 
+4. create insertNotification function in Notification.php file
+5. call the insertNotification function in submit post function in Post.php every time a post is submitted to other user
+6. call the insertNotification function in like.php page
+7. call the insertNotification function in comment_frame.php
+8. final part, send notification to all commenters
+9. create getNotifications function in Notification.php, copy from Message.php and then modify it
+10. create post.php page
+	- include header.php, get the sent id, then copy the user_details_column from index and paste it
+	- create the main column 
+11. create getSinglePost function in Post.php
+    - copy from loadPostFriends function and modify it
+12. create sql script in getSinglePost function to update notification as opened when user click
+13. create function to get the number of friend request in User.php
+14. use the above functioon to add friend request notification badge in the header page
 

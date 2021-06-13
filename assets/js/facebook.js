@@ -35,7 +35,8 @@ function getDropdownData(user, type) {
 		
 		// choose between messages or notifications to set the right ajax file to call
 		if (type == 'notification') {
-
+			pageName = "ajax_load_notifications.php";
+			$("span").remove("#unread_notification");
 		} else if (type == 'message') {
 			pageName = "ajax_load_messages.php";
 			$("span").remove("#unread_message");

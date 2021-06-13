@@ -3,6 +3,7 @@ require 'config/config.php';
 include "classes/Message.php";
 include "classes/User.php";
 include "classes/Post.php";
+include "classes/Notification.php";
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
@@ -22,12 +23,13 @@ if (isset($_SESSION['username'])) {
 	<title>Facebook</title>
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" 
+	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 	<link rel="stylesheet" href="assets/css/jquery.Jcrop.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 
+	<!-- Javascript -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/c814600906.js" crossorigin="anonymous"></script>
 	<script src="assets/js/bootbox.all.min.js"></script>
@@ -46,11 +48,21 @@ if (isset($_SESSION['username'])) {
 		</div>
 		
 		<nav>
+
 			<?php  
 			// unread messages
 			$messages = new Message($conn, $userLoggedIn);
 			$numMessages = $messages->getUnreadNumber();
+
+			// unread notifications
+			$notifications = new Notification($conn, $userLoggedIn);
+			$numNotifications = $notifications->getUnreadNumber();
+
+			// number of friend requests
+			$userObj = new User($conn, $userLoggedIn);
+			$numFriendRequest = $userObj->getNumberOfFriendRequests();
 			?>
+
 			<a href="<?php echo $userLoggedIn; ?>">
 				<?php echo $user['first_name']; ?>
 			</a>
@@ -61,11 +73,13 @@ if (isset($_SESSION['username'])) {
 				<li class="fas fa-envelope fa-lg"></li>
 				<?php echo ($numMessages > 0 ? "<span class='notification_badge' id='unread_message'>$numMessages</span>" : ""); ?>
 			</a>
-			<a href="#" class="ml-3">
+			<a href="javascript:void(0);" class="ml-3" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'notification')">
 				<li class="fas fa-bell fa-lg"></li>
+				<?php echo ($numNotifications > 0 ? "<span class='notification_badge' id='unread_notification'>$numNotifications</span>" : ""); ?>
 			</a>
 			<a href="requests.php" class="ml-3">
 				<li class="fas fa-users fa-lg"></li>
+				<?php echo ($numFriendRequest > 0 ? "<span class='notification_badge' id='unread_request'>$numFriendRequest</span>" : ""); ?>
 			</a>
 			<a href="#" class="ml-3">
 				<li class="fas fa-cog fa-lg"></li>
@@ -73,6 +87,7 @@ if (isset($_SESSION['username'])) {
 			<a href="includes/handlers/logout.php" class="ml-3 mr-2">
 				<li class="fas fa-sign-out-alt fa-lg"></li>
 			</a>
+			
 		</nav>
 
 		<!-- this div is where the dropdown menu will be displayed -->

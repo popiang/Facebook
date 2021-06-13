@@ -478,3 +478,22 @@ textarea:focus {
 	left: 13px;
 	top: -5px;
 }
+
+.result_display_notification {
+	height: auto;
+	color: #1485BD;
+	padding-bottom: 7px;
+	margin-top: 0;
+}
+
+.result_display_notification img {
+	height: 40px;
+	border-radius: 5px;
+	margin: 1px 12px 0 2px;
+	float: left;
+}
+
+.timestamp_smaller {
+	font-size: 85%;
+	margin: 0;
+}
