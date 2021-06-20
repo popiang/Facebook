@@ -10,6 +10,9 @@ Bugs:
 1. notification doesn't set to opened for certain notifications
 2. newsfeed only display after going to other tab first
 
+Improvements:
+1. settings.php so ugly
+
 Steps:
 
 SECTION 2
@@ -197,3 +200,25 @@ SECTION 14
 6. create while loop to loop through the result and create the structure of the results to display
 7. style the results structure
 8. finally add the functionality to all the buttons
+
+SECTION 15
+1. create settings.php page in the root folder
+2. include header
+3. create main column
+4. create form for first name, last name & email
+5. create form to change password
+6. create form to close account
+7. create settings_handler.php file inside form_handlers folder
+8. handle first form
+   - check if email is not is use yet
+   - if not, update the user details
+9. handle second form to update password
+   - check if old password is correct
+   - check if new passwords match & and length >= 5
+   - if all ok,then update user password
+10. handle close account
+   - redirect to close_account.php page
+11. create close_account.php page in the root folder
+12. add warning messages about closing account
+13. create the form to close account and add functionality to close the account
+14. style all above pages

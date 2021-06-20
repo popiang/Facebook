@@ -79,6 +79,7 @@ nav a:hover {
 	border-radius: 5px;
 	box-shadow: 2px 2px 1px #D3D3D3;
 	z-index: -1;
+	color: #555;
 }
 
 .user_details {
@@ -588,6 +589,29 @@ textarea:focus {
 }
 
 .search_page_friend_buttons input[type='submit'] {
+	border: none;
+	padding: 7px 12px;
+	border-radius: 5px;
+	color: #FFF;
+}
+
+#small_profile_pic {
+	height: 55px;
+	margin: 1px 12px 0 2px;
+	float: left;
+}
+
+.settings_input {
+	border: 1px solid #CCC;
+	height: 20px;
+	padding: 4px 6px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.settings_submit_button {
 	border: none;
 	padding: 7px 12px;
 	border-radius: 5px;
