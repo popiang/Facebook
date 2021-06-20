@@ -617,3 +617,10 @@ textarea:focus {
 	border-radius: 5px;
 	color: #FFF;
 }
+
+.posted-image img {
+	max-height: 300px;
+	max-width: 100%;
+	display: block;
+	margin: 5px 5px;
+}

@@ -223,6 +223,23 @@ SECTION 15
 13. create the form to close account and add functionality to close the account
 14. style all above pages
 
-SECTION 16 - Extra Features
+SECTION 16 - Embed youtube link
 1. modify submitPost function in Post.php to be able to ambed submitted youtube link
 2. further modify the function to be able to ambed youtube playlist
+
+SECTION 17 - Upload picture into the post
+1. modify index.php page at the top to processed submitted image
+2. add input to upload file in the form
+3. add column image into post table
+4. modify submitPost function
+   - add third parameter, image name
+   - add into insert statement to insert post table
+5. modify loadPostFriends function
+   - right before the part to create the result structure, create the image div to display the image if available
+   - in the result structure below, add the image div after body
+6. style the image div
+7. update ajax file ajax_submit_profile_posts.php, add third parameter in the submitPost function
+
+COMPLETE!!!!!!!!!!!!!!!!
+
+
