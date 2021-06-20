@@ -101,7 +101,7 @@ if (isset($_SESSION['username'])) {
 				<li class="fas fa-users fa-lg"></li>
 				<?php echo ($numFriendRequest > 0 ? "<span class='notification_badge' id='unread_request'>$numFriendRequest</span>" : ""); ?>
 			</a>
-			<a href="#" class="ml-3">
+			<a href="settings.php" class="ml-3">
 				<li class="fas fa-cog fa-lg"></li>
 			</a>
 			<a href="includes/handlers/logout.php" class="ml-3 mr-2">

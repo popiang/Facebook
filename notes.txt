@@ -187,3 +187,13 @@ SECTION 13
 7. loop the result of the above query to create the structure of the search result
 8. style the above dropdown results
 9. add javascript function to close dropdown for search bar, notifications and messages when user clicks away
+
+SECTION 14
+1. create search.php page in the root folder
+2. include header
+3. set if condition at the top to check of type and query input
+4. create main column
+5. based on query & type, set the usersReturnedQuery to search for users
+6. create while loop to loop through the result and create the structure of the results to display
+7. style the results structure
+8. finally add the functionality to all the buttons

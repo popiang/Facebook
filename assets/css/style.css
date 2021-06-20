@@ -568,3 +568,28 @@ textarea:focus {
 	margin-left: 0;
 	margin-bottom: 2px;
 }
+
+.search_result {
+	padding: 10px;
+	height: 100px;
+}
+
+.search_page_friend_buttons {
+	float: right;
+}
+
+.result_profile_pic {
+	float: left;
+	margin-right: 10px;
+}
+
+.search_result_hr {
+	margin-bottom: 0;
+}
+
+.search_page_friend_buttons input[type='submit'] {
+	border: none;
+	padding: 7px 12px;
+	border-radius: 5px;
+	color: #FFF;
+}
