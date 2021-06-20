@@ -21,6 +21,22 @@ class Post {
 		$body = trim($body);
 		
 		if ($body != "") {
+
+			$bodyArray = preg_split("/\s+/", $body);
+
+			foreach($bodyArray as $key => $value) {
+				if (strpos($value, "www.youtube.com/watch?v=") !== false) {
+
+					$link = preg_split("!&!", $value);
+
+					$value = preg_replace("!watch\?v=!", "embed/", $link[0]);
+					$value = "<br><iframe width=\'420\' height=\'315\' src=\'" . $value ."\'><iframe><br>";
+					$bodyArray[$key] = $value;
+				}
+			}
+
+			$body = implode(" ", $bodyArray);
+
 			// current date and time
 			$date_added = date("Y-m-d H:i:s");
 
